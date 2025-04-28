@@ -91,5 +91,5 @@ def chat_model(text: str, messages: List[dict] = Query(None)) -> dict:
     
     return {
         "response": response,
-        "messages": full_messages
+        "history": full_messages
     }

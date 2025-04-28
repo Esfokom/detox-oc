@@ -1,8 +1,9 @@
-from fastapi import FastAPI, Query
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from model import detox_model, chat_model
-from typing import List, Optional
+from typing import List
 from pydantic import BaseModel
+
 
 app = FastAPI(title="Detox bot API", description="A bot that detects toxic texts and also interacts with user to some extent")
 
@@ -26,6 +27,8 @@ async def detox(text: str):
         return response
     except Exception as e:
         return {"error": str(e)}
+
+
     
 class MessageHistory(BaseModel):
     history: List[dict] = []
@@ -42,3 +45,12 @@ async def chat(text: str, messages: MessageHistory = None):
         return response
     except Exception as e:
         return {"error": str(e)}
+    
+    
+
+@app.get("/")
+async def root():
+    """
+    Root endpoint to check if the API is running.
+    """
+    return {"message": "Welcome to the Detox bot API! Use /detox or /chat endpoints."}
