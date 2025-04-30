@@ -1,11 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from model import detox_model, chat_model
-from typing import List
 from pydantic import BaseModel
+from typing import List
 
-
-app = FastAPI(title="Detox bot API", description="A bot that detects toxic texts and also interacts with user to some extent")
+app = FastAPI(
+    title="Detox bot API",
+    description="A bot that detects toxic texts and also interacts with users to some extent"
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -15,38 +17,38 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+class DetoxRequest(BaseModel):
+    text: str
+    
+    
 @app.post("/detox")
-async def detox(text: str):
+async def detox(request: DetoxRequest):
     """
-    This endpoint takes a text input and returns a "toxic" or "non-toxic".
+    This endpoint takes a text input and returns "toxic" or "non-toxic".
     """
     try:
-        # Call the Groq API with the provided text
-        response = detox_model(text)
+        response = detox_model(request.text)
         return response
     except Exception as e:
         return {"error": str(e)}
 
 
-    
-class MessageHistory(BaseModel):
+class ChatRequest(BaseModel):
+    text: str
     history: List[dict] = []
+    
 
 @app.post("/chat")
-async def chat(text: str, messages: MessageHistory = None):
+async def chat(request: ChatRequest):
     """
     This endpoint takes a list of messages and returns a response from the chat model.
     """
     try:
-        # Ensure messages.history is a list
-        history = messages.history if messages and messages.history else []
-        response = chat_model(text=text, messages=history)
+        history = request.history if request and request.history else []
+        response = chat_model(text=request.text, messages=history)
         return response
     except Exception as e:
         return {"error": str(e)}
-    
-    
 
 @app.get("/")
 async def root():
