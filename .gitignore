@@ -2,5 +2,7 @@
 .env
 .env.local
 private-key.pem
+.env.prod
+.env.shapi
 
 
