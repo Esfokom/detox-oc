@@ -1,3 +1,14 @@
+<<<<<<< HEAD
 .env
 .detox/
 __pycache__/
+=======
+.vercel
+.env
+.env.local
+private-key.pem
+.env.prod
+.env.shapi
+
+
+>>>>>>> 1e00b1643bee044a6a1c223efb4b76ededb50ee3

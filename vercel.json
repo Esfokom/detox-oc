@@ -1,5 +1,6 @@
 {
     "version": 2,
+<<<<<<< HEAD
     "builds": [
       {
         "src": "main.py",
@@ -13,3 +14,12 @@
       }
     ]
   }
+=======
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/api"
+        }
+    ]
+}
+>>>>>>> 1e00b1643bee044a6a1c223efb4b76ededb50ee3
