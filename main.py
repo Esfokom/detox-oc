@@ -28,7 +28,13 @@ async def detox(request: DetoxRequest):
     """
     try:
         response = detox_model(request.text)
-        return response
+        return {
+            "response": response,
+            "history": [
+                {"role": "user", "content": request.text},
+                {"role": "assistant", "content": response["label"]},
+            ]
+        }
     except Exception as e:
         return {"error": str(e)}
 

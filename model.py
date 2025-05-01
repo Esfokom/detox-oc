@@ -49,34 +49,35 @@ def chat_model(text: str, messages: List[dict] = Query(None)) -> dict:
     Provides a chat response based on the input messages.
     """
 
+    
+    base_messages = [
+        {"role": "system", "content": (
+            "You are a polite and helpful AI assistant specialized in:"
+            "\n- Explaining why a text is considered toxic."
+            "\n- Rewriting toxic texts into non-toxic versions."
+            "\n- Responding kindly and helpfully to general conversations."
+            "\nAlways maintain a professional, empathetic, and clear tone."
+        )},
+
+        {"role": "user", "content": "Why was my text 'You are so dumb and annoying' considered toxic?"},
+        {"role": "assistant", "content": (
+            "Your text was considered toxic because it includes insults ('dumb' and 'annoying'), "
+            "which can be hurtful and disrespectful. It's important to communicate with kindness and respect."
+        )},
+
+        {"role": "user", "content": "Can you rewrite 'You are so dumb and annoying' to be non-toxic?"},
+        {"role": "assistant", "content": (
+            "'I find it challenging to work with you sometimes, "
+            "but I'm open to improving our communication.'"
+        )},
+
+        {"role": "user", "content": "What's the capital of France?"},
+        {"role": "assistant", "content": "The capital of France is Paris!"}
+    ]
+
+    # If messages are provided, append them to the base messages
     if messages:
-        base_messages = messages
-    else:
-        base_messages = [
-            {"role": "system", "content": (
-                "You are a polite and helpful AI assistant specialized in:"
-                "\n- Explaining why a text is considered toxic."
-                "\n- Rewriting toxic texts into non-toxic versions."
-                "\n- Responding kindly and helpfully to general conversations."
-                "\nAlways maintain a professional, empathetic, and clear tone."
-            )},
-
-            {"role": "user", "content": "Why was my text 'You are so dumb and annoying' considered toxic?"},
-            {"role": "assistant", "content": (
-                "Your text was considered toxic because it includes insults ('dumb' and 'annoying'), "
-                "which can be hurtful and disrespectful. It's important to communicate with kindness and respect."
-            )},
-
-            {"role": "user", "content": "Can you rewrite 'You are so dumb and annoying' to be non-toxic?"},
-            {"role": "assistant", "content": (
-                "'I find it challenging to work with you sometimes, "
-                "but I'm open to improving our communication.'"
-            )},
-
-            {"role": "user", "content": "What's the capital of France?"},
-            {"role": "assistant", "content": "The capital of France is Paris!"}
-        ]
-
+        base_messages.extend(messages)
     # Create a new list for full_messages
     full_messages = base_messages + [{"role": "user", "content": text}]
 
@@ -91,5 +92,5 @@ def chat_model(text: str, messages: List[dict] = Query(None)) -> dict:
     
     return {
         "response": response,
-        "history": full_messages
+        "history": full_messages[7:]
     }
