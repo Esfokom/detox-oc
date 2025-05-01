@@ -5,10 +5,18 @@ import { Request, Response } from "express";
 export default async function DetoxChat(req: Request, res: Response, client: BotClient) {
 
     const message = (client.command?.args[0].value as { String: string }).String;
-    const clientId = client.initiator;
     const response = await axios.post(`https://detox-bot.vercel.app/chat`, {
         text: message,
-        history: []
+        history: [
+            {
+                "role": "user",
+                "content": "Balloon is a type of fruit?"
+            },
+            {
+                "role": "assistant",
+                "content": "non-toxic"
+            }
+        ]
     }
     );
     const responseMsg = response.data.response;

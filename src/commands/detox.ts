@@ -9,7 +9,7 @@ export default async function Detox(req: Request, res: Response, client: BotClie
         text: message,
     }
     );
-    const responseMsg = response.data.label;
+    const responseMsg = response.data.response!.label;
     console.log(responseMsg);
     const final = await client.createTextMessage(responseMsg);
     final.setFinalised(true);

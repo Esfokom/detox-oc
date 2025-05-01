@@ -1,0 +1,17 @@
+{
+    "ignore": [
+        "chat-history.json",
+        "node_modules/**/*",
+        ".git/**/*",
+        "package-lock.json",
+        "tsconfig.json",
+        "vercel.json",
+        "public/**/*",
+        "api/**/*",
+        ".vercel/**/*"
+    ],
+    "watch": [
+        "src/**/*.ts"
+    ],
+    "ext": "ts"
+}
