@@ -21,20 +21,21 @@ export default async function DetoxChat(req: Request, res: Response, client: Bot
     console.log('[DetoxChat] Received response:', JSON.stringify(response.data, null, 2));
 
     const responseMsg = response.data.response;
-    const newHistory = response.data.history || [];
-
-    console.log(`[DetoxChat] Extracted response: ${responseMsg}`);
-    console.log(`[DetoxChat] Extracted new history:`, JSON.stringify(newHistory, null, 2));
 
     // Update chat history with new interaction
     if (userId) {
-        // Clear existing history and update with new history from response
-        history.forEach((msg: any) => {
-            updateChatHistory(userId, {
-                role: msg.role,
-                content: msg.content
-            });
+        // Add user's message to history
+        updateChatHistory(userId, {
+            role: "user",
+            content: message
         });
+
+        // Add AI's response to history
+        updateChatHistory(userId, {
+            role: "assistant",
+            content: responseMsg
+        });
+
         console.log(`[DetoxChat] Updated chat history for user ${userId}:`, JSON.stringify(getChatHistory(userId), null, 2));
     }
 
